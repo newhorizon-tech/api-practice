@@ -1,15 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-   <script type="text/javascript" src = "./index.js" defer>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 
-   </script>
+  <link rel="stylesheet" href="./style.css">
+  <script type="text/javascript" src="./index.js" defer> </script>
   <title>API Test</title>
 </head>
+
 <body>
+  <h1>Game Center</h1>
+    <div class="new-scores card">
+      <input type="text" id="game-name" value="" placeholder="Game Name">
+      <button class="btn btn-primary" type="button" id="new-game"> New Game </button>
+    </div>
+    <h3>New score</h3>
+
+    <div class="new-scores card">
+      <input type="text" id="player-name" value="" placeholder="Player Name">
+      <input type="number" id="score-field" value="" placeholder="Score">
+      <button class="btn btn-primary" type="button" id="new-score"> Add Score </button>
+    </div>
+  <h3> Leaderboard </h3>
+  <button class="btn btn-primary" type="button" id="refresh"> Refresh</button>
+  <ul></ul>
+
 
 </body>
+
 </html>

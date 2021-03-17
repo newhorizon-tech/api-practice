@@ -5,8 +5,14 @@ const inputField = document.querySelector("#game-name")
 const playerName = document.querySelector("#player-name")
 const newScoreField = document.querySelector("#score-field")
 const newScoreBtn = document.querySelector("#new-score")
+const refreshBtn = document.querySelector("#refresh")
+const leaderList = document.querySelector('#leader-list');
 let gameId = 0
 
+async function getData(url) {
+  const response = await fetch(url);
+  return response.json();
+}
 
 async function postData(url, data) {
   const response = await fetch(url, {
@@ -25,7 +31,7 @@ const validInput = (name) => {
 }
 
 
-newGameBtn.addEventListener('click', () => {
+newGameBtn.addEventListener('click', (gameId) => {
   const input = inputField.value;
   if (!validInput(input)) {
     return;
@@ -41,7 +47,7 @@ newGameBtn.addEventListener('click', () => {
     });
 })
 
-newScoreBtn.addEventListener('click', () => {
+newScoreBtn.addEventListener('click', (gameId) => {
   const newScore = newScoreField.value;
   const newName = playerName.value;
   if (gameId == 0 || !validInput(newScore) || !validInput(newName)) {
@@ -54,4 +60,22 @@ newScoreBtn.addEventListener('click', () => {
   postData(api + 'games/' + gameId + '/scores', scoreObj)
     .then(data => console.log(data));
 
+})
+
+
+refreshBtn.addEventListener('click', (gameId) => {
+  let leaderboard
+  getData(api + 'games/' + gameId + '/scores')
+    .then(data => {
+        leaderboard = data.result
+        console.log(leaderboard)
+        leaderList.textContent = ""
+        leaderboard.forEach((item) => {
+          const listItem = document.createElement("li")
+          listItem.textContent = `Player: ${item.user}. Score: ${item.score}`
+          leaderList.appendChild(listItem)
+        })
+      }
+
+    );
 })

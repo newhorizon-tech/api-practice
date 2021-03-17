@@ -31,7 +31,7 @@ const validInput = (name) => {
 }
 
 
-newGameBtn.addEventListener('click', (gameId) => {
+newGameBtn.addEventListener('click', async() => {
   const input = inputField.value;
   if (!validInput(input)) {
     return;
@@ -40,14 +40,12 @@ newGameBtn.addEventListener('click', (gameId) => {
   const gameObj = {
     "name": input
   }
-  postData(api + 'games', gameObj)
-    .then(data => {
-      gameId = data.result.match(/Game with ID: ([^ ]+)/)[1];
-      console.log(gameId)
-    });
+  const data = await postData(api + 'games', gameObj)
+  gameId = data.result.match(/Game with ID: ([^ ]+)/)[1];
+  console.log(gameId)
 })
 
-newScoreBtn.addEventListener('click', (gameId) => {
+newScoreBtn.addEventListener('click', () => {
   const newScore = newScoreField.value;
   const newName = playerName.value;
   if (gameId == 0 || !validInput(newScore) || !validInput(newName)) {
@@ -58,24 +56,19 @@ newScoreBtn.addEventListener('click', (gameId) => {
     "score": newScore
   }
   postData(api + 'games/' + gameId + '/scores', scoreObj)
-    .then(data => console.log(data));
-
 })
 
 
-refreshBtn.addEventListener('click', (gameId) => {
-  let leaderboard
-  getData(api + 'games/' + gameId + '/scores')
-    .then(data => {
-        leaderboard = data.result
-        console.log(leaderboard)
-        leaderList.textContent = ""
-        leaderboard.forEach((item) => {
-          const listItem = document.createElement("li")
-          listItem.textContent = `Player: ${item.user}. Score: ${item.score}`
-          leaderList.appendChild(listItem)
-        })
-      }
+refreshBtn.addEventListener('click', async () => {
+  const data = await getData(api + 'games/' + gameId + '/scores')
 
-    );
+  const leaderboard = data.result
+  console.log(leaderboard)
+  leaderList.textContent = ""
+  Object.keys(leaderboard).forEach((key) => {
+    const listItem = document.createElement("li")
+    listItem.textContent = `Player: ${leaderboard[key].user}. Score: ${leaderboard[key].score}`
+    leaderList.appendChild(listItem)
+  });
+
 })
